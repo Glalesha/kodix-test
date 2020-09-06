@@ -24,9 +24,10 @@ export default function rootReducer(state = initState, action: any) {
       };
 
     case ADD_CAR:
+      console.log(action);
       return {
         ...state,
-        cars: [...state, action.payload.carInfo],
+        cars: [...state.cars, action.payload.carInfo],
       };
 
     default:

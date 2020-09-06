@@ -4,8 +4,13 @@ import ColorPicker from "../ColorPicker/ColorPicker";
 import BaseInput from "../BaseInput/BaseInput";
 import BaseSelect from "../BaseSelect/BaseSelect";
 import addCar from "../../store/actions/addCar";
+import { connect } from "react-redux";
 
-const AddCarForm: React.FC<{}> = () => {
+interface Props {
+  addCar: any;
+}
+
+const AddCarForm: React.FC<Props> = ({ addCar }) => {
   const [titlValue, setTitlValue] = useState("");
   const [yearValue, setYearValue] = useState("");
   const [priceValue, setPriceValue] = useState("");
@@ -24,6 +29,8 @@ const AddCarForm: React.FC<{}> = () => {
       color: colorValue,
       status: statusValue,
     };
+
+    addCar(carInfo);
   };
 
   return (
@@ -59,20 +66,20 @@ const AddCarForm: React.FC<{}> = () => {
       ></ColorPicker>
       <BaseSelect
         options={[
-          { name: "В наличии", value: "inStock" },
-          { name: "Ожидается", value: "expected" },
-          { name: "Нет в наличии", value: "outOfStock" },
+          { name: "В наличии", value: "in_stock" },
+          { name: "Ожидается", value: "pednding" },
+          { name: "Нет в наличии", value: "out_of_stock" },
         ]}
         defaultSelected="Статус"
-        onChange={(e: any) => setStatusValue(e.target.value)}
-        value={statusVAlue}
+        onChange={(selectedStatus: string) => setStatusValue(selectedStatus)}
+        value={statusValue}
       />
       <SendButton type="submit">Отправить</SendButton>
     </Form>
   );
 };
 
-export default AddCarForm;
+export default connect(null, { addCar })(AddCarForm);
 
 const Form = styled.form`
   display: grid;

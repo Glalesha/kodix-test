@@ -5,9 +5,16 @@ import { OptionType } from "../../types";
 interface Props {
   options: Array<OptionType>;
   defaultSelected: string;
+  onChange: any;
+  value: string;
 }
 
-const BaseSelect: React.FC<Props> = ({ options, defaultSelected, onChange }) => {
+const BaseSelect: React.FC<Props> = ({
+  options,
+  defaultSelected,
+  onChange,
+  value,
+}) => {
   const [isOpened, setIsOpened] = useState(false);
   const [selectedValue, setSelectedValue] = useState({
     name: defaultSelected,
@@ -27,6 +34,7 @@ const BaseSelect: React.FC<Props> = ({ options, defaultSelected, onChange }) => 
   const handleOptionClick = (option: OptionType) => {
     setSelectedValue(option);
     setIsOpened(false);
+    onChange(selectedValue.value);
   };
 
   return (
