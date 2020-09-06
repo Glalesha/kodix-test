@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import ColorPicker from "../ColorPicker/ColorPicker";
 import BaseInput from "../BaseInput/BaseInput";
+import BaseSelect from "../BaseSelect/BaseSelect";
 
 const CarsForm: React.FC<{}> = () => {
   const [nameValue, setNameValue] = useState("");
@@ -37,6 +38,14 @@ const CarsForm: React.FC<{}> = () => {
         fullWidth={true}
       />
       <ColorPicker></ColorPicker>
+      <BaseSelect
+        options={[
+          { name: "В наличии", value: "inStock" },
+          { name: "Ожидается", value: "expected" },
+          { name: "Нет в наличии", value: "outOfStock" },
+        ]}
+        defaultSelected="Статус"
+      />
       <SendButton>Отправить</SendButton>
     </Form>
   );

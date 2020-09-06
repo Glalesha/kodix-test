@@ -87,4 +87,5 @@ const ColorLabel = styled.label<any>`
   background-color: ${(props: any) => props.code};
   border: ${(props) =>
     props.borderColor ? `1px solid ${props.borderColor}` : "none"};
+  cursor: pointer;
 `;

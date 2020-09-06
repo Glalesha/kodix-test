@@ -4,7 +4,7 @@ import CarsForm from "../CarsForm/CarsForm";
 
 const Main: React.FC<{}> = () => {
   return (
-    <div>
+    <Wrapper>
       <Header>
         <Logo src="/images/header-logo.png"></Logo>
       </Header>
@@ -18,11 +18,17 @@ const Main: React.FC<{}> = () => {
           <p>Десница тысячелетия и моллюск!</p>
         </FooterText>
       </Footer>
-    </div>
+    </Wrapper>
   );
 };
 
 export default Main;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+`;
 
 const Header = styled.header`
   height: 102px;
@@ -52,6 +58,7 @@ const Footer = styled.footer`
   justify-content: center;
   align-items: center;
   height: 102px;
+  margin-top: auto;
   background-color: #282d30;
 `;
 
