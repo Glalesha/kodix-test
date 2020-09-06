@@ -3,20 +3,36 @@ import styled from "styled-components";
 import ColorPicker from "../ColorPicker/ColorPicker";
 import BaseInput from "../BaseInput/BaseInput";
 import BaseSelect from "../BaseSelect/BaseSelect";
+import addCar from "../../store/actions/addCar";
 
-const CarsForm: React.FC<{}> = () => {
-  const [nameValue, setNameValue] = useState("");
+const AddCarForm: React.FC<{}> = () => {
+  const [titlValue, setTitlValue] = useState("");
   const [yearValue, setYearValue] = useState("");
   const [priceValue, setPriceValue] = useState("");
   const [descriptionValue, setDescriptionValue] = useState("");
+  const [colorValue, setColorValue] = useState("");
+  const [statusValue, setStatusValue] = useState("");
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+
+    const carInfo = {
+      title: titlValue,
+      year: yearValue,
+      description: descriptionValue,
+      price: priceValue,
+      color: colorValue,
+      status: statusValue,
+    };
+  };
 
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <BaseInput
         name="название"
         type="text"
-        onChange={(e: any) => setNameValue(e.target.value)}
-        value={nameValue}
+        onChange={(e: any) => setTitlValue(e.target.value)}
+        value={titlValue}
       />
       <BaseInput
         name="год"
@@ -37,7 +53,10 @@ const CarsForm: React.FC<{}> = () => {
         value={descriptionValue}
         fullWidth={true}
       />
-      <ColorPicker></ColorPicker>
+      <ColorPicker
+        onChange={(e: any) => setColorValue(e.target.value)}
+        value={colorValue}
+      ></ColorPicker>
       <BaseSelect
         options={[
           { name: "В наличии", value: "inStock" },
@@ -45,20 +64,23 @@ const CarsForm: React.FC<{}> = () => {
           { name: "Нет в наличии", value: "outOfStock" },
         ]}
         defaultSelected="Статус"
+        onChange={(e: any) => setStatusValue(e.target.value)}
+        value={statusVAlue}
       />
-      <SendButton>Отправить</SendButton>
+      <SendButton type="submit">Отправить</SendButton>
     </Form>
   );
 };
 
-export default CarsForm;
+export default AddCarForm;
 
 const Form = styled.form`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 20px;
   grid-row-gap: 30px;
-  width: 958px;
+  width: 100%;
+  margin-bottom: 134px;
 `;
 
 const SendButton = styled.button`
@@ -70,4 +92,5 @@ const SendButton = styled.button`
   border: none;
   border-radius: 4px;
   text-transform: uppercase;
+  cursor: pointer;
 `;

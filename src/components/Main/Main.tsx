@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import CarsForm from "../CarsForm/CarsForm";
+import AddCarForm from "../AddCarForm/AddCarForm";
+import CarsInStock from "../CarsInStock/CarsInStock";
 
 const Main: React.FC<{}> = () => {
   return (
@@ -10,7 +11,8 @@ const Main: React.FC<{}> = () => {
       </Header>
       <MainBlock>
         <Caption>¡Ay caramba</Caption>
-        <CarsForm />
+        <AddCarForm />
+        <CarsInStock />
       </MainBlock>
       <Footer>
         <FooterText>
@@ -44,6 +46,9 @@ const MainBlock = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 958px;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 const Caption = styled.h1`

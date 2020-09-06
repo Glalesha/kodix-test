@@ -7,7 +7,7 @@ interface Props {
   defaultSelected: string;
 }
 
-const BaseSelect: React.FC<Props> = ({ options, defaultSelected }) => {
+const BaseSelect: React.FC<Props> = ({ options, defaultSelected, onChange }) => {
   const [isOpened, setIsOpened] = useState(false);
   const [selectedValue, setSelectedValue] = useState({
     name: defaultSelected,
@@ -37,9 +37,9 @@ const BaseSelect: React.FC<Props> = ({ options, defaultSelected }) => {
       </Selected>
       <OptionsWrapper>
         <OptionsList isOpened={isOpened}>
-          {options.map((option) => {
+          {options.map((option, index) => {
             return (
-              <OptionItem>
+              <OptionItem key={index}>
                 <Option
                   data-value={option.value}
                   onClick={() => handleOptionClick(option)}

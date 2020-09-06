@@ -1,44 +1,31 @@
 import React from "react";
 import styled from "styled-components";
+import { ColorLabel } from "../BaseColor/BaseColor";
 
-const ColorPicker: React.FC = () => {
-  const colors = [
-    { name: "white", code: "#FFFFFF", border: "#8B8B8B" },
-    {
-      name: "black",
-      code: "#000000",
-    },
-    {
-      name: "grey",
-      code: "#C4C4C4",
-    },
-    {
-      name: "red",
-      code: "#DD1C10",
-    },
-    {
-      name: "green",
-      code: "#77CF61",
-    },
-  ];
+interface Props {
+  onChange: any;
+  value: string;
+}
+
+const ColorPicker: React.FC<Props> = ({ onChange, value }) => {
+  const colors = ["white", "black", "grey", "red", "green"];
 
   return (
     <ColorPickContainer>
       <ColorTitle>Цвет</ColorTitle>
       <ColorsList>
-        {colors.map((color) => {
+        {colors.map((color, index) => {
           return (
-            <ColorItem>
+            <ColorItem key={index}>
               <ColorInput
                 type="radio"
-                id={color.name}
+                id={color}
                 name="color"
+                onChange={onChange}
+                checked={color === value}
+                value={color}
               ></ColorInput>
-              <ColorLabel
-                htmlFor={color.name}
-                code={color.code}
-                borderColor={color.border}
-              ></ColorLabel>
+              <ColorLabel htmlFor={color} color={color} as="label"></ColorLabel>
             </ColorItem>
           );
         })}
@@ -77,15 +64,4 @@ const ColorInput = styled.input`
   &:checked ~ label {
     box-shadow: 0 0 0 3px #c3002f;
   }
-`;
-
-const ColorLabel = styled.label<any>`
-  display: block;
-  width: 19px;
-  height: 19px;
-  border-radius: 50%;
-  background-color: ${(props: any) => props.code};
-  border: ${(props) =>
-    props.borderColor ? `1px solid ${props.borderColor}` : "none"};
-  cursor: pointer;
 `;
