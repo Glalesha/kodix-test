@@ -4,22 +4,18 @@ import { OptionType } from "../../types";
 
 interface Props {
   options: Array<OptionType>;
-  defaultSelected: string;
   onChange: any;
-  value: string;
+  selected: any;
+  error: string;
 }
 
 const BaseSelect: React.FC<Props> = ({
   options,
-  defaultSelected,
   onChange,
-  value,
+  selected,
+  error,
 }) => {
   const [isOpened, setIsOpened] = useState(false);
-  const [selectedValue, setSelectedValue] = useState({
-    name: defaultSelected,
-    value: "",
-  });
 
   const select = useRef<HTMLDivElement>(null);
 
@@ -31,59 +27,68 @@ const BaseSelect: React.FC<Props> = ({
     });
   });
 
-  const handleOptionClick = (option: OptionType) => {
-    setSelectedValue(option);
+  const handleOptionClick = (e: any, option: OptionType) => {
     setIsOpened(false);
-    onChange(selectedValue.value);
+    onChange(option);
   };
 
   return (
-    <Select ref={select}>
-      <Selected onClick={() => setIsOpened(!isOpened)}>
-        <SelectedText>{selectedValue.name}</SelectedText>
-        <Arrow></Arrow>
-      </Selected>
-      <OptionsWrapper>
-        <OptionsList isOpened={isOpened}>
-          {options.map((option, index) => {
-            return (
-              <OptionItem key={index}>
-                <Option
-                  data-value={option.value}
-                  onClick={() => handleOptionClick(option)}
-                >
-                  {option.name}
-                </Option>
-              </OptionItem>
-            );
-          })}
-        </OptionsList>
-      </OptionsWrapper>
-    </Select>
+    <Wrapper>
+      <Select ref={select}>
+        <Selected onClick={() => setIsOpened(!isOpened)}>
+          <SelectedText>{selected.name}</SelectedText>
+          <Arrow isOpened={isOpened}></Arrow>
+        </Selected>
+        <OptionsWrapper>
+          <OptionsList isOpened={isOpened}>
+            {options.map((option, index) => {
+              return (
+                <OptionItem key={index}>
+                  <Option
+                    data-value={option.value}
+                    onClick={(e: any) => handleOptionClick(e, option)}
+                  >
+                    {option.name}
+                  </Option>
+                </OptionItem>
+              );
+            })}
+          </OptionsList>
+        </OptionsWrapper>
+      </Select>
+      {error ? <ErrorMessage>{error}</ErrorMessage> : null}
+    </Wrapper>
   );
 };
 
 export default BaseSelect;
 
+const Wrapper = styled.div`
+  position: relative;
+`;
+
 const Select = styled.div`
   position: relative;
   height: 40px;
-  cursor: pointer;
 `;
 
 const Selected = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: 15px 10px 8px;
+  font-size: 14px;
   color: #8b8b8b;
   border: 1px solid #dadada;
+  cursor: pointer;
 `;
 
 const SelectedText = styled.span``;
 
-const Arrow = styled.div`
+const Arrow = styled.div<any>`
   margin-right: 10px;
+  transform: ${(props) => (props.isOpened ? "rotate(180deg)" : "rotate(0)")};
+  transition: transform 0.3s;
 
   &:before {
     content: "";
@@ -102,12 +107,16 @@ const OptionsWrapper = styled.div`
 `;
 
 const OptionsList = styled.ul<any>`
+  position: relative;
+  z-index: 1;
   width: 100%;
-  padding: 12px 10px 20px;
+  padding: 16px 10px 14px;
   border: 1px solid #dadada;
   border-top: 2px solid #282d30;
+  background-color: #ffffff;
   transform: ${(props) => (props.isOpened ? "" : "translateY(-100%)")};
   transition: transform 0.3s;
+  cursor: pointer;
 `;
 
 const OptionItem = styled.li`
@@ -124,4 +133,9 @@ const Option = styled.div`
   &:hover {
     color: #282d30;
   }
+`;
+
+const ErrorMessage = styled.p`
+  position: absolute;
+  color: #dd1c10;
 `;

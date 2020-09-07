@@ -5,9 +5,10 @@ import { ColorLabel } from "../BaseColor/BaseColor";
 interface Props {
   onChange: any;
   value: string;
+  error: string;
 }
 
-const ColorPicker: React.FC<Props> = ({ onChange, value }) => {
+const ColorPicker: React.FC<Props> = ({ onChange, value, error }) => {
   const colors = ["white", "black", "grey", "red", "green"];
 
   return (
@@ -30,6 +31,7 @@ const ColorPicker: React.FC<Props> = ({ onChange, value }) => {
           );
         })}
       </ColorsList>
+      {error ? <ErrorMessage>{error}</ErrorMessage> : null}
     </ColorPickContainer>
   );
 };
@@ -37,6 +39,7 @@ const ColorPicker: React.FC<Props> = ({ onChange, value }) => {
 export default ColorPicker;
 
 const ColorPickContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
 `;
@@ -64,4 +67,10 @@ const ColorInput = styled.input`
   &:checked ~ label {
     box-shadow: 0 0 0 3px #c3002f;
   }
+`;
+
+const ErrorMessage = styled.p`
+  position: absolute;
+  top: 40px;
+  color: #dd1c10;
 `;

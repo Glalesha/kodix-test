@@ -6,7 +6,8 @@ interface Props {
   value: string;
   type: string;
   fullWidth?: boolean;
-  onChange: any;
+  onChange?: any;
+  required: boolean;
 }
 
 const BaseInput: React.FC<Props> = ({
@@ -15,10 +16,16 @@ const BaseInput: React.FC<Props> = ({
   type,
   fullWidth,
   onChange,
+  required,
 }) => {
   return (
     <InputBlock fullWidth={fullWidth}>
-      <Input type={type} value={value} onChange={onChange}></Input>
+      <Input
+        type={type}
+        value={value}
+        onChange={onChange}
+        required={required}
+      ></Input>
       <Label>
         <LabelContent>{name}</LabelContent>
         <BottomBorder></BottomBorder>
@@ -40,6 +47,8 @@ const Input = styled.input`
   height: 40px;
   padding: 10px;
   border: 1px solid #dadada;
+  font-size: 18px;
+  color: #282d30;
   outline: none;
 
   &:focus ~ label div,
@@ -57,7 +66,7 @@ const Input = styled.input`
 
   &:focus ~ label p,
   &:not([value=""]) ~ label p {
-    transform: translateY(-33px);
+    transform: translateY(-35px);
   }
 
   &:hover ~ label div {

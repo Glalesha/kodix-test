@@ -10,7 +10,7 @@ const Main: React.FC<{}> = () => {
         <Logo src="/images/header-logo.png"></Logo>
       </Header>
       <MainBlock>
-        <Caption>¡Ay caramba</Caption>
+        <Caption>¡Ay caramba!</Caption>
         <AddCarForm />
         <CarsInStock />
       </MainBlock>
@@ -40,6 +40,7 @@ const Header = styled.header`
 const Logo = styled.img`
   display: block;
   margin: auto;
+  margin-top: 3px;
 `;
 
 const MainBlock = styled.main`

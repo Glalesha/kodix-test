@@ -5,6 +5,7 @@ import deleteCar from "../../store/actions/deleteCar";
 import { connect } from "react-redux";
 import { CarType } from "../../types";
 import { BaseColor } from "../BaseColor/BaseColor";
+import { addSpacesInNumber } from "../../utils";
 
 interface Props {
   fetchCars: any;
@@ -29,34 +30,40 @@ const CarsInStock: React.FC<Props> = ({ cars, fetchCars, deleteCar }) => {
 
   return (
     <Wrapper>
-      <Title>Автомобили в наличии</Title>
+      <Caption>Автомобили в наличии</Caption>
       <Table>
         <thead>
           <TrHead>
             <Th>Название</Th>
             <Th>Год</Th>
             <Th>Цвет</Th>
-            <Th>Статус</Th>
+            <ThStatus>Статус</ThStatus>
             <Th>Цена</Th>
             <Th></Th>
           </TrHead>
         </thead>
         <tbody>
           {cars.map((car: CarType) => {
+            console.log(car);
             return (
               <Tr key={car.id}>
-                <Td>{car.title}</Td>
-                <Td>{car.year}</Td>
-                <Td>
+                <TdDescription>
+                  <Title>{car.title}</Title>
+                  {car.description ? (
+                    <Description>{car.description}</Description>
+                  ) : null}
+                </TdDescription>
+                <TdYear>{car.year}</TdYear>
+                <TdColor>
                   <BaseColor color={car.color}></BaseColor>
-                </Td>
-                <Td>{statusHandler(car.status)}</Td>
-                <Td>{car.price}</Td>
-                <Td>
+                </TdColor>
+                <TdStatus>{statusHandler(car.status)}</TdStatus>
+                <Td>{addSpacesInNumber(car.price.toString())} руб.</Td>
+                <TdDelete>
                   <DeleteButton onClick={() => deleteCar(car.id)}>
                     Удалить
                   </DeleteButton>
-                </Td>
+                </TdDelete>
               </Tr>
             );
           })}
@@ -80,17 +87,30 @@ const Wrapper = styled.div`
   margin-bottom: 266px;
 `;
 
-const Title = styled.h2`
+const Caption = styled.h2`
+  position: relative;
   margin-top: 0;
-  margin-bottom: 30px;
+  margin-bottom: 33px;
+  padding-left: 15px;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 19px;
   text-transform: uppercase;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 1px;
+    left: 0;
+    width: 3px;
+    height: 18px;
+    background-color: #8b8b8b;
+  }
 `;
 
 const Table = styled.table`
   width: 100%;
   border-spacing: 0;
+  border-collapse: collapse;
 `;
 
 const TrHead = styled.tr`
@@ -110,19 +130,50 @@ const TrHead = styled.tr`
 `;
 
 const Tr = styled.tr`
-  text-align: left;
   min-height: 52px;
   background-color: #f5f6f6;
   font-size: 15px;
   color: #323232;
+  border-top: 1px solid #dadada;
 `;
 
 const Th = styled.th`
-  padding: 12px 30px 12px 16px;
+  text-align: left;
+  padding: 17px 0 12px 16px;
+  vertical-align: top;
+  font-weight: bold;
+`;
+
+const ThStatus = styled(Th)`
+  padding-left: 32px;
 `;
 
 const Td = styled.td`
-  padding: 16px 30px 15px 16px;
+  padding-top: 16px;
+  padding-left: 15px;
+  padding-bottom: 16px;
+  vertical-align: top;
+`;
+
+const TdDescription = styled(Td)`
+  width: 469px;
+`;
+
+const TdYear = styled(Td)``;
+
+const TdColor = styled(Td)`
+  display: flex;
+  justify-content: center;
+  padding-top: 14px;
+  padding-left: 27px;
+`;
+
+const TdStatus = styled(Td)`
+  padding-left: 32px;
+`;
+
+const TdDelete = styled(Td)`
+  padding: 12px 26px 15px 16px;
 `;
 
 const DeleteButton = styled.button`
@@ -139,4 +190,18 @@ const DeleteButton = styled.button`
     color: #ffffff;
     background-color: #282d30;
   }
+`;
+
+const Title = styled.h3`
+  margin: 0;
+  font-size: 15px;
+  font-weight: 300;
+  color: #323232;
+`;
+
+const Description = styled.p`
+  margin-top: 9px;
+  margin-bottom: 0;
+  font-size: 13px;
+  color: #8b8b8b;
 `;
