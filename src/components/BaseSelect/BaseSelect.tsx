@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, MouseEvent } from "react";
 import styled from "styled-components";
-import { OptionType } from "../../types";
+import { OptionType, SelectedType } from "../../types";
 
 interface Props {
   options: Array<OptionType>;
-  onChange: any;
-  selected: any;
+  parentOnChange(...args: any[]): void;
+  selected: SelectedType;
   error: string;
 }
 
 const BaseSelect: React.FC<Props> = ({
   options,
-  onChange,
+  parentOnChange,
   selected,
   error,
 }) => {
@@ -27,9 +27,9 @@ const BaseSelect: React.FC<Props> = ({
     });
   });
 
-  const handleOptionClick = (e: any, option: OptionType) => {
+  const handleOptionClick = (e: MouseEvent, option: OptionType) => {
     setIsOpened(false);
-    onChange(option);
+    parentOnChange(option);
   };
 
   return (
@@ -46,7 +46,7 @@ const BaseSelect: React.FC<Props> = ({
                 <OptionItem key={index}>
                   <Option
                     data-value={option.value}
-                    onClick={(e: any) => handleOptionClick(e, option)}
+                    onClick={(e: MouseEvent) => handleOptionClick(e, option)}
                   >
                     {option.name}
                   </Option>
@@ -85,8 +85,9 @@ const Selected = styled.div`
 
 const SelectedText = styled.span``;
 
-const Arrow = styled.div<any>`
+const Arrow = styled.div<{ isOpened: boolean }>`
   margin-right: 10px;
+  margin-bottom: 5px;
   transform: ${(props) => (props.isOpened ? "rotate(180deg)" : "rotate(0)")};
   transition: transform 0.3s;
 
@@ -106,7 +107,7 @@ const OptionsWrapper = styled.div`
   overflow: hidden;
 `;
 
-const OptionsList = styled.ul<any>`
+const OptionsList = styled.ul<{ isOpened: boolean }>`
   position: relative;
   z-index: 1;
   width: 100%;

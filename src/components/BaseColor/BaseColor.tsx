@@ -1,11 +1,10 @@
-import React from "react";
 import styled from "styled-components";
 
-export const BaseColor = styled.div<any>`
+export const BaseColor = styled.div<{ color: string }>`
   width: 19px;
   height: 19px;
   border-radius: 50%;
-  background-color: ${(props: any) => {
+  background-color: ${(props) => {
     switch (props.color) {
       case "red":
         return "#DD1C10";
@@ -23,7 +22,7 @@ export const BaseColor = styled.div<any>`
     props.color === "white" ? `1px solid #8B8B8B` : "none"};
 `;
 
-export const ColorLabel = styled(BaseColor)<any>`
+export const ColorLabel = styled(BaseColor)`
   display: block;
   cursor: pointer;
 `;

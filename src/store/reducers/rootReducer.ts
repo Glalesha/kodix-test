@@ -1,12 +1,12 @@
-import { CarType } from "../../types";
-import { GET_CARS, DELETE_CAR, ADD_CAR, ADD_ERROR } from "../../consts";
+import { CarType, RootState } from "../../types";
+import { GET_CARS, DELETE_CAR, ADD_CAR } from "../../consts";
+import { Action } from "../../types";
 
-const initState: any = {
+const initState: RootState = {
   cars: [],
-  errors: [],
 };
 
-export default function rootReducer(state = initState, action: any) {
+export default function rootReducer(state = initState, action: Action) {
   switch (action.type) {
     case GET_CARS:
       return {
@@ -28,12 +28,6 @@ export default function rootReducer(state = initState, action: any) {
       return {
         ...state,
         cars: [...state.cars, action.payload.carInfo],
-      };
-
-    case ADD_ERROR:
-      return {
-        ...state,
-        errors: [...state.errors, action.payload.errors],
       };
 
     default:

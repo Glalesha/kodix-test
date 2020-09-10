@@ -1,4 +1,4 @@
-export const getNewId = (arr: any) => {
+export const getNewId = (arr: any[]) => {
   let idArr = arr.filter((item: any) => {
     return item.id !== undefined && item.id !== null && !isNaN(item.id);
   });
@@ -16,6 +16,5 @@ export const getNewId = (arr: any) => {
 
 export const addSpacesInNumber = (number: string | number) => {
   const trimmedNumber = number.toString().replace(/ |\D/g, "");
-  console.log(trimmedNumber);
   return trimmedNumber.replace(/(\d)(?=(\d{3})+([^\d]|$))/g, "$1 ");
 };

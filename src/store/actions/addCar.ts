@@ -1,7 +1,7 @@
 import { ADD_CAR } from "../../consts";
+import { CarType } from "../../types";
 
-const addCar = (carInfo: any) => {
-  console.log(134);
+const addCar = (carInfo: CarType) => {
   return {
     type: ADD_CAR,
     payload: {

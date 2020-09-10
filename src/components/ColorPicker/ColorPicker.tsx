@@ -1,9 +1,9 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import styled from "styled-components";
 import { ColorLabel } from "../BaseColor/BaseColor";
 
 interface Props {
-  onChange: any;
+  onChange(e: ChangeEvent): void;
   value: string;
   error: string;
 }

@@ -1,17 +1,18 @@
 import { all, takeEvery, call, put } from "redux-saga/effects";
-import { FETCH_CARS, DELETE_CAR } from "../consts";
+import { FETCH_CARS } from "../consts";
 import getCars from "./actions/getCars";
 import axios from "axios";
+import { FetchCarsAction } from "../types";
 
 export default function* rootSaga() {
-  yield all([fetchCars(), deleteCar()]);
+  yield all([fetchCars()]);
 }
 
 function* fetchCars() {
   yield takeEvery(FETCH_CARS, fetchCarsAsync);
 }
 
-function* fetchCarsAsync(action: any) {
+function* fetchCarsAsync(action: FetchCarsAction) {
   try {
     const cars = yield call(async () => {
       const res = await axios.get(
@@ -20,14 +21,7 @@ function* fetchCarsAsync(action: any) {
       return res.data;
     });
     yield put(getCars(cars));
-  } catch {}
-}
-
-function* deleteCar() {
-  takeEvery(DELETE_CAR, deleteCarAsync);
-}
-
-function* deleteCarAsync(action: any) {
-  try {
-  } catch {}
+  } catch (error) {
+    console.log(error)
+  }
 }

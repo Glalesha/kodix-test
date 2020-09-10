@@ -1,30 +1,72 @@
-import React from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  ChangeEvent,
+  KeyboardEvent,
+} from "react";
 import styled from "styled-components";
 
 interface Props {
   name: string;
   value: string;
   type: string;
-  fullWidth?: boolean;
-  onChange?: any;
-  required: boolean;
+  parentOnChange?(e: ChangeEvent): void;
+  required?: boolean;
+  onKeyDown?(e: KeyboardEvent): void;
+  addSeparator?: boolean;
 }
 
 const BaseInput: React.FC<Props> = ({
   name,
   value,
   type,
-  fullWidth,
-  onChange,
+  parentOnChange,
   required,
+  addSeparator,
 }) => {
+  const [oldCursorPosition, setOldCursorPosition] = useState(0);
+  const [oldValue, setOldValue] = useState("");
+  const [currentValue, setCurrentValue] = useState("");
+
+  useEffect(() => {
+    const newCursorPosition: number =
+      oldCursorPosition -
+      Math.floor(oldCursorPosition / 4) +
+      Math.floor(
+        (oldCursorPosition + currentValue.length - oldValue.length) / 4
+      ) +
+      (+currentValue.replace(/ /g, "").length -
+        +oldValue.replace(/ /g, "").length);
+
+    if (inputRef.current !== null) {
+      inputRef.current.setSelectionRange(newCursorPosition, newCursorPosition);
+    }
+  }, [currentValue]);
+
+  const keyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+    setOldCursorPosition(e.currentTarget.selectionEnd as any);
+    setOldValue(e.currentTarget.value);
+  };
+
+  const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    if (addSeparator) {
+      setCurrentValue(e.currentTarget.value);
+    }
+    parentOnChange!(e);
+  };
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
   return (
-    <InputBlock fullWidth={fullWidth}>
+    <InputBlock>
       <Input
         type={type}
         value={value}
-        onChange={onChange}
+        onChange={(e: ChangeEvent) => changeHandler(e as any)}
         required={required}
+        onKeyDown={addSeparator ? keyDownHandler : () => {}}
+        ref={inputRef}
       ></Input>
       <Label>
         <LabelContent>{name}</LabelContent>
@@ -36,9 +78,8 @@ const BaseInput: React.FC<Props> = ({
 
 export default BaseInput;
 
-const InputBlock = styled.div<any>`
+const InputBlock = styled.div`
   position: relative;
-  grid-column: ${(props) => (props.fullWidth ? "1/4" : null)};
 `;
 
 const Input = styled.input`
